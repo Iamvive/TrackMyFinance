@@ -1,0 +1,79 @@
+# Gradle files
+.gradle/
+build/
+/captures
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio generated files and folders
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Cache of project
+.gradletasknamecache
+
+# MacOS
+.DS_Store
+
+# External native build folder generated in Android Studio
+.externalNativeBuild/
+.cxx/
+
+# Generated files
+bin/
+gen/
+out/
+
+# Version control
+vcs.xml
+
+# Gradle wrapper (keep these files)
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# NDK
+obj/
+
+# Debug and Release builds
+app/debug/
+app/release/
+
+# Kotlin
+*.class
+*.dex
+
+# IntelliJ specific
+*.iws
+.idea/tasks.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries/
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/gradle.xml
+.idea/caches/
+.idea/modules.xml
+.idea/.name
+.idea/encodings.xml
