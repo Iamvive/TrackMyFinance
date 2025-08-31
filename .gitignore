@@ -77,3 +77,7 @@ app/release/
 .idea/modules.xml
 .idea/.name
 .idea/encodings.xml
+
+# Project specific
+PersonalFinanceMonthTemplate/
+PersonalFinanceMonthTemplate/**
