@@ -1,0 +1,112 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'gradle'
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          ~/.android/build-cache
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Cache Kotlin Compiler
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.konan
+          ~/.kotlin
+        key: ${{ runner.os }}-kotlin-${{ hashFiles('**/*.kt') }}
+        restore-keys: |
+          ${{ runner.os }}-kotlin-
+
+    - name: Cache Android Build
+      uses: actions/cache@v3
+      with:
+        path: |
+          build
+          app/build
+          */build
+        key: ${{ runner.os }}-android-build-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-android-build-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Clean Project
+      run: ./gradlew clean
+
+    - name: Check Kotlin code style
+      run: ./gradlew ktlintCheck
+
+    - name: Run Unit Tests
+      run: ./gradlew testDebugUnitTest
+
+    - name: Android Lint
+      run: ./gradlew lintDebug
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
+
+    - name: Upload Build Artifacts
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: |
+          app/build/reports/tests/
+          app/build/reports/lint-results-debug.html
+          app/build/reports/ktlint/
+
+    - name: Save Gradle State
+      if: always()
+      run: |
+        rm -f ~/.gradle/daemon/*/daemon-*.out.log
+        rm -f ~/.gradle/daemon/*/daemon-*.log
+        rm -f ~/.gradle/workers.bin
+        cp ~/.gradle/init.gradle.kts ~/.gradle/init.gradle.kts.bak || true
+
+    - name: Upload Gradle Reports
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: gradle-reports
+        path: |
+          app/build/reports/
+          ~/.gradle/init.gradle.kts.bak
+          
+    - name: Build Status Check
+      run: |
+        if [ ${{ job.status }} != 'success' ]; then
+          echo "::error::Build failed! Check the logs for details."
+          exit 1
+        fi
