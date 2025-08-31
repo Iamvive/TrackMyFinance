@@ -1,82 +1,32 @@
-# Architecture Guidelines
+# Project Architecture
 
-This document outlines the architectural patterns and best practices to be followed in the Track My Finance app, inspired by the Now In Android app architecture.
+This document outlines the architecture for Track My Finance.
 
 ## Overview
 
-The app follows Clean Architecture principles with MVVM pattern, organized in the following layers:
+Track My Finance employs a Clean Architecture with the MVVM pattern, featuring clear separation of layers and modules.
 
-```
-app/
-├── ui/          # Presentation layer (Compose UI, ViewModels)
-├── domain/      # Business logic and interfaces
-├── data/        # Data handling and implementations
-└── di/          # Dependency injection modules
-```
+## Diagram
 
-## Key Components
+![Architecture Diagram](architecture-diagram.png)
 
-### UI Layer
-- UI State holders (ViewModels)
-- UI Elements (Composables)
-- State management
-- UI business logic
+_A placeholder diagram is provided; update with an actual diagram as the project evolves._
 
-### Domain Layer
-- Business logic
-- Domain models
-- Repository interfaces
-- Use cases
+## Layers
 
-### Data Layer
-- Repository implementations
-- Data sources
-- API integration
-- Local persistence
-- Mappers
-
-## Dependency Flow
-```
-UI Layer → Domain Layer ← Data Layer
-```
-
-## Component Dependencies
-- UI Layer can only depend on Domain Layer
-- Domain Layer has no dependencies on other layers
-- Data Layer can only depend on Domain Layer
+- **Presentation Layer:** UI, ViewModels
+- **Domain Layer:** Use cases, business logic
+- **Data Layer:** Repositories, data sources (API, DB)
 
 ## Module Organization
-Each feature module should follow this structure:
-```
-feature_name/
-├── ui/
-│   ├── screens/
-│   │   └── FeatureScreen.kt          # Compose UI
-│   ├── components/                    # Reusable UI components
-│   ├── FeatureViewModel.kt
-│   ├── FeatureState.kt
-│   ├── FeatureEvent.kt
-│   └── FeatureEffect.kt
-├── domain/
-│   ├── model/
-│   │   └── FeatureEntity.kt
-│   ├── repository/
-│   │   └── FeatureRepository.kt
-│   └── usecase/
-│       └── FeatureUseCase.kt
-└── data/
-    ├── repository/
-    │   └── FeatureRepositoryImpl.kt
-    ├── remote/
-    │   ├── api/
-    │   │   └── FeatureApi.kt
-    │   ├── model/
-    │   │   └── FeatureApiModel.kt
-    │   └── mapper/
-    │       └── FeatureApiMapper.kt
-    └── local/
-        ├── model/
-        │   └── FeatureEntity.kt
-        └── mapper/
-            └── FeatureEntityMapper.kt
-```
+
+- `app/` - App entry, DI, navigation
+- `domain/` - Business models, use cases
+- `data/` - API, persistence, repositories
+
+## Dependencies
+
+- Presentation → Domain → Data
+- No reverse dependencies
+
+_See more in [UI Guidelines](UI_GUIDELINES.md) and [Data Guidelines](DATA_GUIDELINES.md)._
