@@ -2,6 +2,13 @@
 
 A modern Android application built with Jetpack Compose to help users track and manage their personal finances.
 
+## Documentation
+
+- [Architecture Guidelines](docs/ARCHITECTURE.md) - Project architecture and structure
+- [UI Guidelines](docs/UI_GUIDELINES.md) - UI components and Compose best practices
+- [Data Guidelines](docs/DATA_GUIDELINES.md) - Data handling, API integration, and persistence
+- [Best Practices](docs/BEST_PRACTICES.md) - Threading, memory management, and general best practices
+
 ## Tech Stack
 
 - **Language**: Kotlin
